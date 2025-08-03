@@ -10,7 +10,7 @@ const Car = ({ car }) => {
       <p><b>Brand: </b>{brand}</p>
       <p><b>Year: </b>{year}</p>
       <p><b>Price: $</b>{price}</p>
-      <p><b>Premium: </b>{isPremium}</p>
+      <p><b>Premium: </b>{isPremium ? 'Yes' : 'No'}</p>
 
     </div>
   )

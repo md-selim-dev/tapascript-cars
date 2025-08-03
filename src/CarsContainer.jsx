@@ -1,24 +1,32 @@
 import React from 'react'
 import Car from './Car'
+import PropTypes from 'prop-types'
 
-const cars = [
-    { id: 1, title: "Luxury Sedan", brand: "Mercedes", year: 2023, price: 80000, isPremium: true },
-    { id: 2, title: "Family SUV", brand: "Toyota", year: 2022, price: 45000, isPremium: false },
-    { id: 3, title: "Sports Car", brand: "Porsche", year: 2023, price: 120000, isPremium: true },
-    { id: 4, title: "Electric Hatchback", brand: "Nissan", year: 2022, price: 35000, isPremium: false },
-    { id: 5, title: "Luxury SUV", brand: "BMW", year: 2023, price: 90000, isPremium: true },
-]
+const CarsContainer = ({ cars, searchTerm, premium }) => {
 
-const CarsContainer = () => {
+    const filteredCars = cars.filter(car => {
+        const matchesSearch = car.title.toLowerCase().includes(searchTerm.toLowerCase()) || car.brand.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesPremium = premium ? car.isPremium : true;
+        return matchesSearch && matchesPremium;
+    }).map(car => <Car key={car.id} car={car}></Car>)
+
+    if(!filteredCars.length){
+        return <p className='text-gray-600 text-lg mt-16 text-center'>No cars Found</p>
+    }
+
     return (
         <div className='grid mt-6 md:grid-cols-2 gap-4 lg:grid-cols-3'>
             {
-                cars.map(car => (
-                    <Car key={car.id} car={car}></Car>
-                ))
+                filteredCars
             }
         </div>
     )
+}
+
+CarsContainer.propTypes = {
+    cars: PropTypes.array.isRequired,
+    searchTerm: PropTypes.string.isRequired,
+    premium: PropTypes.bool.isRequired,
 }
 
 export default CarsContainer
